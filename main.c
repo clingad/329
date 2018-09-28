@@ -18,14 +18,14 @@ int main() {
     P4->SEL0 &= ~BIT3;
     P4->DIR  |= BIT3;
 
-    setDCO(FREQ_1_5_MHZ);
+    setDCO(FREQ_3_MHZ);
 
     while (1) {
         P1->OUT |= BIT0;    // P2.1 on
         P4->OUT |= BIT3;    // P4.3 on
-        delay_ms(0);
+        delay_us(40);
         P1->OUT &= ~BIT0;   // P2.1 off
         P4->OUT &= ~BIT3;   // P4.3 off
-        delay_ms(0);
+        delay_us(40);
     }
 }
