@@ -17,7 +17,7 @@
 #define FREQ_48_MHZ 48000000
 
 void setDCO(int FREQ);
-void delay_us(int us,int freq);
-void delay_ms(int ms, int freq);
+void delay_us(int us);
+void delay_ms(int ms);
 
 #endif /* DELAY_H_ */

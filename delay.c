@@ -61,8 +61,27 @@ void setDCO(int FREQ){  // using the DCO to set different frequencies of the mas
 
 }
 
-void delay_us(int us,int freq){
-       int cycles = freq/1000000;
+void delay_us(int us){
+    int FREQ;
+    if(CS->CTL0 == CS_CTL0_DCORSEL_0 ){
+        FREQ = FREQ_1_5_MHZ;
+    }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_1){
+        FREQ = FREQ_3_MHZ;
+    }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_2){
+            FREQ = FREQ_6_MHZ;
+        }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_3){
+            FREQ = FREQ_12_MHZ;
+        }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_4){
+            FREQ = FREQ_24_MHZ;
+        }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_5){
+            FREQ = FREQ_48_MHZ;
+       }
+       int cycles = FREQ/(10000000);
        // Loop for input number of these cycles.
        int i, j;
        for (j = 0; j < us; j++) {
@@ -70,8 +89,28 @@ void delay_us(int us,int freq){
        }
 }
 
-void delay_ms(int ms, int freq){
-    int cycles = freq/1000;
+void delay_ms(int ms){
+    int FREQ;
+    if(CS->CTL0 == CS_CTL0_DCORSEL_0 ){
+        FREQ = FREQ_1_5_MHZ;
+    }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_1){
+        FREQ = FREQ_3_MHZ;
+    }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_2){
+            FREQ = FREQ_6_MHZ;
+        }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_3){
+            FREQ = FREQ_12_MHZ;
+        }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_4){
+            FREQ = FREQ_24_MHZ;
+        }
+    else if(CS->CTL0 == CS_CTL0_DCORSEL_5){
+            FREQ = FREQ_48_MHZ;
+       }
+
+    int cycles = FREQ/(10000) ;
     int i, j;
        for (j = 0; j < ms; j++) {
            for (i = 0; i < cycles; i++);
