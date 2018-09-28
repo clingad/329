@@ -18,7 +18,7 @@ int main() {
     P4->SEL0 &= ~BIT3;
     P4->DIR  |= BIT3;
 
-    setDCO(FREQ_3_MHZ);
+    setDCO(FREQ_48_MHZ);
 
     while (1) {
         P1->OUT |= BIT0;    // P2.1 on

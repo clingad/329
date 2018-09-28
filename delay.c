@@ -81,12 +81,12 @@ void delay_us(int us){
     else if(CS->CTL0 == CS_CTL0_DCORSEL_5){
             FREQ = FREQ_48_MHZ;
        }
-       int cycles = FREQ/(10000000000);
+       int cycles = FREQ/(100000000);
        // Loop for input number of these cycles.
        int i, j;
-       for (j = 0; j < us; j++) {
+       for (j = 0; j < us; j++){
            for (i = 0; i < cycles; i++);
-       }
+        }
 }
 
 void delay_ms(int ms){
