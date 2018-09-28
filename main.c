@@ -10,17 +10,32 @@ void main(void)
 
 	//Code for Oscilloscope
 	//Mux Select
-	P4->SEL0 |= (BIT3); // set to 1
-	P4->SEL1 &= ~(BIT3); //set to 0
 
+	//MLK
+	P4->SEL0 &= ~(BIT3); // set to 1
+	//P4->SEL1 &= ~(BIT3); //set to 0  s
+
+
+
+    P4->DIR |= (BIT3);
 	//Bit Flip direction out
-	P4->DIR |= (BIT3);   //set as output
+	   //set as output
 
 	setDCO(FREQ_3_MHZ);
 
-    while(1){
-	delay_us(1000000,FREQ_3_MHZ);
-    }
+     //P1->DIR = 0x01;
+	//delay_us(10,FREQ_3_MHZ);
+
+   while(1){
+
+    P4->OUT |= (BIT3); // on
+    P2->OUT |= (0x01);
+	delay_ms(50,FREQ_3_MHZ);
+	P4->OUT &= ~(BIT3);
+	P2->OUT |= (0x00);
+	delay_ms(50,FREQ_3_MHZ);
+   }
+
 
 }
 

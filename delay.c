@@ -54,7 +54,7 @@ void setDCO(int FREQ){  // using the DCO to set different frequencies of the mas
 
     //set the DCO for all other frequencies
 
-        CS->CTL1 |= CS_CTL1_SELM_3;
+      CS->CTL1  |= CS_CTL1_SELM_3;
 
     //lock cs registers
     CS->KEY = 0;
@@ -62,12 +62,19 @@ void setDCO(int FREQ){  // using the DCO to set different frequencies of the mas
 }
 
 void delay_us(int us,int freq){
-       int cycles = freq/10000000;
-
+       int cycles = freq/1000000;
        // Loop for input number of these cycles.
        int i, j;
        for (j = 0; j < us; j++) {
-           for (i = cycles; i > 0; i--);
+           for (i = 0; i < cycles; i++);
+       }
+}
+
+void delay_ms(int ms, int freq){
+    int cycles = freq/1000;
+    int i, j;
+       for (j = 0; j < ms; j++) {
+           for (i = 0; i < cycles; i++);
        }
 }
 
