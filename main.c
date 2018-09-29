@@ -8,24 +8,69 @@ int main() {
 
     WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
 
-    // Set up LED P1.0 //RED LED
-    P1->SEL0 &= ~BIT0;
-    P1->SEL1 &= ~BIT0;      // set P2.1 (Green RGB LED) as GPIO
-    P1->DIR  |= BIT0;       // set P2.1 (Green RGB LED) as output
+    // P3.0 = RS
+    // P3.2 = r/w
+    // P3.3 = E
+    // P4.1 = DB4
+    // P4.2 = DB5
+    // P4.3 = DB6
+    // P4.4 = DB7
+    setDCO(FREQ_24_MHZ);
 
-    // Oscilloscope
-    P4->SEL1 &= ~BIT3;      // set P4.3 as GPIO
-    P4->SEL0 &= ~BIT3;
-    P4->DIR  |= BIT3;
+    P3->SEL0 &= ~(BIT0 | BIT2 | BIT3);// Where is 3.1?
+    P3->SEL1 &= ~(BIT0 | BIT2 | BIT3);
+    P4->SEL0 = 0x00;
+    P4->SEL1 = 0x00;
+    P3->DIR |= (BIT0 | BIT2 | BIT3);
+    P4->DIR = 0x0F;
 
-    setDCO(FREQ_48_MHZ);
+    delay_us(40000);
 
-    while (1) {
-        P1->OUT |= BIT0;    // P2.1 on
-        P4->OUT |= BIT3;    // P4.3 on
-        delay_us(40);
-        P1->OUT &= ~BIT0;   // P2.1 off
-        P4->OUT &= ~BIT3;   // P4.3 off
-        delay_us(40);
-    }
+    P3->OUT &= ~BIT3; // E LOW
+    P3->OUT &= ~(BIT0 | BIT2);    //RS and RW LOw
+    P4->OUT <<= 0x3C;
+    // Pulse Enable
+    P3->OUT |= BIT3;  // Set E High
+    delay_us(0);
+    P3->OUT &= ~BIT3; // E LOW
+    delay_us(37);
+    // Pulse Enable
+    P3->OUT |= BIT3;  // Set E High
+    delay_us(0);
+    P3->OUT &= ~BIT3; // E LOW
+    // delay
+    delay_us(37);
+
+    // Data
+    P3->OUT &= ~(BIT0|BIT2); // Set RS/RW
+    P4->OUT <<= 0x0F;
+     // Pulse Enable
+    P3->OUT |= BIT3;  // Set E High
+    delay_us(0);
+    P3->OUT &= ~BIT3; // E LOW
+
+    // delay
+    delay_us(37);
+    // data
+    P4->OUT <<= 0x01;
+    P3->OUT |= BIT3;  // Set E High
+    delay_us(0);
+    P3->OUT &= ~BIT3; // E LOW
+
+    delay_us(1520);
+
+    P4->OUT <<= 0x06;
+    // pulse enable
+    P3->OUT |= BIT3;  // Set E High
+    delay_us(0);
+    P3->OUT &= ~BIT3; // E LOW
+    // delay
+    delay_us(37);
+
+
+
+
+
+
+
 }
