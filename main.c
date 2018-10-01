@@ -31,7 +31,7 @@ void write(char i)
  P3->OUT |= (BIT0);
  P3->OUT &= ~( BIT2);
  Nybble(); //Clock lower 4 bits
- //i = i<<4; //Shift over by 4 bits
+ 
  P4->OUT = i; //put data on output Port
  Nybble(); //Clock upper 4 bits
 }
@@ -75,5 +75,89 @@ void Nybble()
   command(0x06); //Entry Mode set
 
 
+  /***********old code**************************************/
+  WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
+
+     // P3.0 = RS
+     // P3.2 = r/w
+     // P3.3 = E
+     // P4.1 = DB4
+     // P4.2 = DB5
+     // P4.3 = DB6
+     // P4.4 = DB7
+    setDCO(FREQ_24_MHZ);
+ /*****************SET GPIO for P3 and P4 ****************************/
+     P3->SEL0 &= ~(BIT0 | BIT2 | BIT3);// Where is 3.1?
+     P3->SEL1 &= ~(BIT0 | BIT2 | BIT3);
+     P4->SEL0 = 0x00;
+     P4->SEL1 = 0x00;
+     P3->DIR |= (BIT0 | BIT2 | BIT3);
+     P4->DIR = 0x0F;
+ /******************************************************************/
+     delay_ms(40);
+     // Delay For LCD  Boot Up
+
+
+     /**********Function Set***********/
+     P3->OUT &= ~BIT3; // E LOW
+     P3->OUT &= ~(BIT0 | BIT2);    // Set RS and RW low
+
+     P4->OUT = 0x03; // 2 Lines by 11
+
+     // Take data in
+     P3->OUT |= BIT3;  // Set E High
+     delay_us(0);
+     P3->OUT &= ~BIT3; // E LOW
+     delay_us(37);
+     // Clear Data
+     // Pulse Enable
+     P3->OUT |= BIT3;  // Set E High
+     delay_us(0);
+     P3->OUT &= ~BIT3; // E LOW
+     // delay
+     delay_us(37);
+
+
+
+     P3->OUT &= ~(BIT0|BIT2); // Set RS/RW
+   /*********Function Set*******/
+
+     P4->OUT = 0x0C; //
+     P3->OUT |= BIT3;  // Set E High
+     delay_us(0);
+     P3->OUT &= ~BIT3; // E LOW
+     delay_us(37);
+
+     /*****Display On/Off*****************/
+     P4->OUT  = 0x0F; //
+     P3->OUT |= BIT3;  // Set E High
+     delay_us(0);
+     P3->OUT &= ~BIT3; // E LOW
+     delay_us(37);
+
+
+     /*****Display Clear****************/
+     P4->OUT  = 0x01; //
+     P3->OUT |= BIT3;  // Set E High
+     delay_us(0);
+     P3->OUT &= ~BIT3; // E LOW
+     delay_us(1520);
+
+
+     /****** Entry Set Mode*************/
+     P4->OUT = 0x06;
+     P3->OUT |= BIT3;  // Set E High
+     delay_us(0);
+     P3->OUT &= ~BIT3; // E LOW
+     delay_us(37);
+
+
+
+
+
+
+
+
+/**************************************************/
  }
  /**********************************************************/
