@@ -12,10 +12,10 @@
   // P3.0 = RS
     // P3.2 = r/w
     // P3.3 = E
-    // P4.1 = DB4
-    // P4.2 = DB5
-    // P4.3 = DB6
-    // P4.4 = DB7
+    // P4.0 = DB4
+    // P4.1 = DB5
+    // P4.2 = DB6
+    // P4.3 = DB7
 
 // Write Char LCD takes in the character the line and
 // position in the line you want the character to be set in
