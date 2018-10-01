@@ -92,14 +92,14 @@ void cursorSet(int line,int pos){ // first line is 0 // second line 1
     P4->SEL0 = 0x00;
     P4->SEL1 = 0x00;
     P3->DIR |= (RS | RW | ENABLE);
-    P4->DIR = LOWERNYBBLE; // P4.0 to P4.3
+    P4->DIR = LOWERNIBBLE; // P4.0 to P4.3
 
   delay_ms(40); //Wait >40 msec after power is applied
-  P4->OUT = NYBBLEFUNCSET1;//put 0x03 on the output port
+  P4->OUT = NIBBLEFUNCSET1;//put 0x03 on the output port
   delay_ms(5); //must wait 5ms, busy flag not available
   Nybble(); //command 0x30 = Wake up #3
   delay_us(40);//can check busy flag now instead of delay
-  P4->OUT = NYBBLEFUNCSET2; //put 0x02 on the output port
+  P4->OUT = NIBBLEFUNCSET2; //put 0x02 on the output port
   delay_us(40); //Function set: 4-bit interface
   command(FUNCSET4B2L); //Function set: 4-bit/2-line
   command(CURSOR); //Set cursor
