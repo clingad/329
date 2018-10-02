@@ -21,10 +21,31 @@ int main() {
 
   init(); // initalize the LCD
   clear_LCD(); // clear the lcd
-  write_char_LCD('A', 0,0x0); // 'A' in the top left first line
-  write_char_LCD('B', 1,15); // write B in the lower right. The second line
-  write_char_LCD('F',0,15);
-  write_char_LCD('S',1,0x00);
+   write_char_LCD('H', 0, 0x00);
+    write_char_LCD('E', 0, 0x01);
+    write_char_LCD('L', 0, 0x02);
+    write_char_LCD('L', 0, 0x03);
+    write_char_LCD('O', 0, 0x04);
+    write_char_LCD(',', 0, 0x05);
+    write_char_LCD('W', 0, 0x06);
+    write_char_LCD('O', 0, 0x07);
+    write_char_LCD('R', 0, 0x08);
+    write_char_LCD('L', 0, 0x09);
+    write_char_LCD('D', 0, 0x0A);
+
+    write_char_LCD('A', 1, 0x00);
+    write_char_LCD('S', 1, 0x01);
+    write_char_LCD('S', 1, 0x02);
+    write_char_LCD('I', 1, 0x03);
+    write_char_LCD('G', 1, 0x04);
+    write_char_LCD('N', 1, 0x05);
+    write_char_LCD('M', 1, 0x06);
+    write_char_LCD('E', 1, 0x07);
+    write_char_LCD('N', 1, 0x08);
+    write_char_LCD('T', 1, 0x09);
+    write_char_LCD(' ', 1, 0x0A);
+    write_char_LCD('3', 1, 0x0B);
+
   home_LCD(); // return the cursor to the top left without erasing what is currently written
 
 }
