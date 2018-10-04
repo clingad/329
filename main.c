@@ -1,6 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "msp.h"
 #include "delay.h"
 #include "LED.H"
+#include "keypad.H"
+
+
 #define BIT_CHECK(var,pos) ((var) & (1<<(pos)))
 
 /**
@@ -13,40 +19,34 @@
     // P4.2 = DB5
     // P4.3 = DB6
     // P4.4 = DB7
+int pos = 0;
 int main() {
 
     int i;
+    char data[16];
+
+ //  String hel;
+
     WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;
     setDCO(FREQ_24_MHZ);
+    init(); // initalize the LCD
+    clear_LCD(); // clear the lcd
+    initKeypad();
+  while(1){
+     delay_ms(180);
 
-  init(); // initalize the LCD
-  clear_LCD(); // clear the lcd
-   write_char_LCD('H', 0, 0x00);
-    write_char_LCD('E', 0, 0x01);
-    write_char_LCD('L', 0, 0x02);
-    write_char_LCD('L', 0, 0x03);
-    write_char_LCD('O', 0, 0x04);
-    write_char_LCD(',', 0, 0x05);
-    write_char_LCD('W', 0, 0x06);
-    write_char_LCD('O', 0, 0x07);
-    write_char_LCD('R', 0, 0x08);
-    write_char_LCD('L', 0, 0x09);
-    write_char_LCD('D', 0, 0x0A);
+    int num = keypad_getkey();
+    if(num != 0XFF){
+     write_char_LCD(num,0,pos);
+     pos++;
+     if(pos > 15){
+         pos = 0;
+     }
+  }
 
-    write_char_LCD('A', 1, 0x00);
-    write_char_LCD('S', 1, 0x01);
-    write_char_LCD('S', 1, 0x02);
-    write_char_LCD('I', 1, 0x03);
-    write_char_LCD('G', 1, 0x04);
-    write_char_LCD('N', 1, 0x05);
-    write_char_LCD('M', 1, 0x06);
-    write_char_LCD('E', 1, 0x07);
-    write_char_LCD('N', 1, 0x08);
-    write_char_LCD('T', 1, 0x09);
-    write_char_LCD(' ', 1, 0x0A);
-    write_char_LCD('3', 1, 0x0B);
 
-  home_LCD(); // return the cursor to the top left without erasing what is currently written
+  }
+    home_LCD(); // return the cursor to the top left without erasing what is currently written
 
 }
 /**********************************************************/

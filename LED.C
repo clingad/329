@@ -7,30 +7,31 @@
 #include "msp.h"
 #include "LED.H"
 #include "delay.h"
-#include "string.h"
+
+
 
   // P3.0 = RS
     // P3.2 = r/w
     // P3.3 = E
-    // P4.0 = DB4
-    // P4.1 = DB5
-    // P4.2 = DB6
-    // P4.3 = DB7
+    // P4.1 = DB4
+    // P4.2 = DB5
+    // P4.3 = DB6
+    // P4.4 = DB7
 
 // Write Char LCD takes in the character the line and
 // position in the line you want the character to be set in
 void write_char_LCD(char i, int line, int pos)
 {
- int j;
- cursorSet(line,pos);
- j = i >> 4; // send upper bits
- P4->OUT = j;
- P3->OUT |= (RS);  // send data
- P3->OUT &= ~(RW); // write
- Nybble(); //Clock lower 4 bits
- P4->OUT = i; // send lower bits
- Nybble(); //Clock upper 4 bits
- delay_ms(1);
+    int j;
+    cursorSet(line,pos);
+    j = i >> 4; // send upper bits
+    P4->OUT = j;
+    P3->OUT |= (RS);  // send data
+    P3->OUT &= ~(RW); // write
+    Nybble(); //Clock lower 4 bits
+    P4->OUT = i; // send lower bits
+    Nybble(); //Clock upper 4 bits
+    delay_ms(1);
 
 }
 /**********************************************************/
@@ -44,7 +45,13 @@ void clear_LCD(){
     command(CLEARDISPLAY);
     delay_ms(2);
 }
-
+void writeString(char *input, int line){
+    int i  = 0;
+    int length = 16;
+    for(i  ; i < length; i++ ){
+        write_char_LCD(input[i],line,i);
+    }
+}
 // sends commands to the LCD
 void command(char i)
 {
@@ -92,19 +99,19 @@ void cursorSet(int line,int pos){ // first line is 0 // second line 1
     P4->SEL0 = 0x00;
     P4->SEL1 = 0x00;
     P3->DIR |= (RS | RW | ENABLE);
-    P4->DIR = LOWERNIBBLE; // P4.0 to P4.3
+    P4->DIR = 0x0F; // P4.0 to P4.3
 
   delay_ms(40); //Wait >40 msec after power is applied
-  P4->OUT = NIBBLEFUNCSET1;//put 0x03 on the output port
+  P4->OUT = 0x03;//put 0x03 on the output port
   delay_ms(5); //must wait 5ms, busy flag not available
   Nybble(); //command 0x30 = Wake up #3
   delay_us(40);//can check busy flag now instead of delay
-  P4->OUT = NIBBLEFUNCSET2; //put 0x02 on the output port
+  P4->OUT = 0x02; //put 0x02 on the output port
   delay_us(40); //Function set: 4-bit interface
-  command(FUNCSET4B2L); //Function set: 4-bit/2-line
+  command(0x28); //Function set: 4-bit/2-line
   command(CURSOR); //Set cursor
-  command(DISPLAYON); //Display ON; Blinking cursor
-  command(ENTRYMODESET); //Entry Mode set
+  command(0x0F); //Display ON; Blinking cursor
+  command(0x06); //Entry Mode set
 
 }
 
