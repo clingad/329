@@ -17,9 +17,10 @@
 #define COL1 BIT5 //P6.5
 #define COL2 BIT6 //P6.6
 #define COL3 BIT7 //P6.7
+#define INVALID 0xFF
 
 #define BIT_CHECK(var,pos) ((var) & (1<<(pos)))
-
+// Initialize ports in the keys
 void initKeypad();
 uint8_t keypad_getkey();
 
